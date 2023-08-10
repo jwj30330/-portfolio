@@ -1,1 +1,95 @@
 @charset "UTF-8";
+//컬러시스템
+//주조색상
+$pri-color-1: #2c3e50;
+$pri-color-2: #52b3d9;
+$pri-color-3: #ffffff;
+
+//보조색상
+$sec-color-1: #68c3a3;
+$sec-color-2: #333333;
+$sec-color-3: #eeeeee;
+
+//강조할 색상
+$point-color-1: #ffc90e;
+$point-color-2: #fcf8e3;
+#wrap {
+	min-width: 1200px;
+
+	> .loading {
+		//방법2(가세정렬)
+		display: flex;
+		justify-content: center;
+		align-items: center;
+
+		position: fixed;
+		left: 0;
+		right: 0;
+		top: 0;
+		bottom: 0;
+		z-index: 1000;
+		background-color: $pri-color-3;
+		> p {
+			/*방법1(가세정렬)
+			position: absolute;
+			top: 50%;
+			left: 50%;
+            transform: translate(-50%, -50%);*/
+
+			width: 64px;
+			height: 64px;
+			text-indent: -9999px;
+			background-image: url(../images/loading.gif);
+		}
+	} //.loading
+	> h1 {
+		position: absolute;
+		left: 50%;
+		top: 100px;
+		z-index: 100;
+		text-transform: uppercase;
+		color: $pri-color-3;
+		font-size: 24px;
+		transform: translate(-50%, 0);
+	}
+	> #home {
+		position: relative;
+		overflow: hidden;
+		> .intro {
+			position: absolute;
+			left: 0;
+			top: 35%;
+			width: 100%;
+			text-align: center;
+			// border: 1px solid #fff;
+			> h2 {
+				color: $pri-color-2;
+				font-size: 60px;
+				line-height: 80px;
+				> span {
+					color: $sec-color-1;
+				}
+			}
+			> p {
+				margin-top: 24px;
+				line-height: 1.8;
+				letter-spacing: 1;
+				color: $pri-color-3;
+			}
+		} //.intro
+
+		> .bgmov {
+			position: absolute;
+			left: 0;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			z-index: -1; //가장 밑에 깔림
+			width: 100%;
+			> video {
+				min-width: 100%;
+				min-height: 100%;
+			}
+		}
+	} //#home
+} //#wrap
