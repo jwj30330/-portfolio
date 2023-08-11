@@ -7,7 +7,9 @@ $(function () {
 
 //
 $(function () {
+	const $h1 = $('h1');
 	const $home = $('#home');
+	const $intro = $home.children('.intro');
 
 	$(window).on('load', function () {
 		/*
@@ -19,6 +21,12 @@ $(function () {
       window.outerWidth
       window.outerHeight
 
-    */ $home.height(window.innerHeight); //브라우저에서 스크롤바와 툴바 미포함})
+    */
+		$home.height(window.innerHeight); //브라우저에서 스크롤바와 툴바 미포함
+
+		$h1.css({
+			//선택된 요소가 body로 부터 이르는 거리(left, top)
+			top: $intro.offset().top - 72,
+		});
 	});
 });
