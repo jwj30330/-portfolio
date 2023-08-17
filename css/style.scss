@@ -14,8 +14,19 @@ $sec-color-3: #eeeeee;
 $point-color-1: #ffc90e;
 $point-color-2: #fcf8e3;
 
+//믹신변수-반복되는 코드 덩어리
+@mixin transTop {
+	top: 50%;
+	transform: translate(0, -50%);
+}
+
+$mobile: 'screen  and (max-width:640px)';
 #wrap {
+	position: relative;
 	min-width: 1200px;
+	@media #{$mobile} {
+		min-width: 100%;
+	}
 
 	> .loading {
 		//방법2(가세정렬)
@@ -46,7 +57,8 @@ $point-color-2: #fcf8e3;
 	> h1 {
 		position: absolute;
 		left: 50%;
-		top: 100px;
+		//top값은js에서 동적으로 설정
+		// top: 160px;
 		z-index: 100;
 		text-transform: uppercase;
 		color: $pri-color-3;
@@ -54,8 +66,15 @@ $point-color-2: #fcf8e3;
 		transform: translate(-50%, 0);
 	}
 	> #home {
+		overflow: hidden;
 		position: relative;
 		overflow: hidden;
+
+		@media #{$mobile} {
+			background-image: url(../media/visual.jpg);
+			background-position: center center;
+			background-repeat: no-repeat;
+		}
 		&:before {
 			display: block;
 			width: 100%;
@@ -71,12 +90,23 @@ $point-color-2: #fcf8e3;
 			width: 100%;
 			text-align: center;
 			// border: 1px solid #fff;
+			@media #{$mobile} {
+				top: 25%;
+				padding-bottom: 30px;
+			}
 			> h2 {
 				color: $pri-color-2;
 				font-size: 60px;
 				line-height: 80px;
+				@media #{$mobile} {
+					font-size: 35px;
+					line-height: 50px;
+				}
 				> span {
 					color: $sec-color-1;
+					@media #{$mobile} {
+						display: block;
+					}
 				}
 			}
 			> p {
@@ -84,12 +114,20 @@ $point-color-2: #fcf8e3;
 				line-height: 1.8;
 				letter-spacing: 1;
 				color: $pri-color-3;
+				> span {
+					@media #{$mobile} {
+						display: block;
+					}
+				}
 			}
 			> .myico {
 				display: flex;
 				justify-content: space-between;
 				width: 320px;
 				margin: 40px auto 0;
+				@media #{$mobile} {
+					margin-top: 80px;
+				}
 				> span {
 					display: block;
 					width: 40px;
@@ -124,6 +162,10 @@ $point-color-2: #fcf8e3;
 			border: 2px solid $pri-color-3;
 			box-sizing: border-box;
 			border-radius: 15px;
+
+			@media #{$mobile} {
+				display: none;
+			}
 
 			@keyframes mousewheel {
 				0% {
@@ -161,10 +203,469 @@ $point-color-2: #fcf8e3;
 			bottom: 0;
 			z-index: -1; //가장 밑에 깔림
 			width: 100%;
+			@media #{$mobile} {
+				display: none;
+			}
 			> video {
 				min-width: 100%;
 				min-height: 100%;
 			}
-		}
+		} //.bgmov
 	} //#home
+	header {
+		width: 100%;
+		min-width: 1200px;
+		background-color: $pri-color-3;
+		border-bottom: 1px solid $sec-color-3;
+		@media #{$mobile} {
+			min-width: 100%;
+		}
+
+		&.fixed {
+			position: fixed;
+			left: 0;
+			top: 0;
+			z-index: 1000;
+		}
+		> .container {
+			position: relative;
+			height: 66px;
+
+			> h2 {
+				position: absolute;
+				left: 7%;
+				@include transTop(); //믹신변수
+				// top: 50%;
+				// transform: translate(0, -50%);
+				background-image: url(../images/logo.png);
+				background-repeat: no-repeat;
+
+				> a {
+					display: block;
+					height: 32px;
+					color: $pri-color-1;
+					line-height: 32px;
+					text-indent: 40px;
+					text-transform: uppercase;
+				}
+			}
+			//반응형 햄버거 버튼
+			> button {
+				display: none;
+				@media #{$mobile} {
+					background: none;
+					border: none;
+					outline: none;
+					display: block;
+					position: absolute;
+					right: 7%;
+					@include transTop;
+					width: 24px;
+					height: 18px;
+					text-indent: -9999px;
+					background-image: url(../images/mnu_btn.png);
+					background-position: center center;
+					background-repeat: no-repeat;
+					&.clse {
+						background-image: url(../images/clse_btn.png);
+					}
+				}
+			} //button
+			> nav {
+				position: absolute;
+				right: 7%;
+				@include transTop();
+				@media #{$mobile} {
+					display: none;
+					right: initial; //기존에 설정해 놨던 right:7% 없애기
+					left: 0;
+					top: 66px;
+					width: 100%;
+					transform: inherit;
+					border-top: 1px solid $sec-color-3;
+				}
+				> .gnb {
+					display: flex;
+					@media #{$mobile} {
+						display: initial;
+					}
+					> li {
+						@media #{$mobile} {
+							background-color: $pri-color-3;
+							border-bottom: 1px solid $sec-color-3;
+						}
+						> a {
+							display: block;
+							padding: 0 15px;
+							color: darken($sec-color-3, 70%);
+							font-weight: 500;
+							text-transform: uppercase;
+							transition: all 1s;
+							@media #{$mobile} {
+								height: 48px;
+								line-height: 48px;
+								text-indent: 7%;
+								padding: 0;
+							}
+						}
+						&:hover > a,
+						&.on > a {
+							color: $pri-color-2;
+						}
+					}
+				} //.gnb
+			} //nav
+		} //.container
+	} //header
+	header ~ section {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		font-size: 150px;
+		text-transform: uppercase;
+		@media #{$mobile} {
+			font-size: 64px;
+		}
+
+		&:nth-of-type(odd) {
+			height: 500px;
+			background-color: skyblue;
+		}
+		&:nth-of-type(even) {
+			height: 800px;
+			background-color: pink;
+		}
+	}
+	> footer {
+		min-width: 1200px;
+		@media #{$mobile} {
+			min-width: 100%;
+		}
+		> .working {
+			border-top: 1px solid $sec-color-3;
+			> p {
+				height: 80px;
+				line-height: 80px;
+				padding-left: 7%;
+				> a {
+					margin: 0 30px;
+					&:hover {
+						text-decoration: underline;
+					}
+				}
+			} //p
+		} //.working
+		> .info {
+			background-color: darken($sec-color-2, 10%);
+			> .container {
+				position: relative;
+				padding: 45px 7% 40px;
+				> h2,
+				p {
+					color: #aaa;
+					font-size: 13px;
+					margin-bottom: 15px;
+					> a {
+						color: #aaa;
+					}
+					> .bar {
+						margin: 0 10px;
+					}
+				}
+				> h2:after {
+					display: block;
+					position: absolute;
+					right: 7%;
+					@include transTop();
+					width: 53px;
+					height: 68px;
+					background-image: url(../images/footer_logo.png);
+					content: '';
+					@media #{$mobile} {
+						display: none;
+					}
+				}
+				@media #{$mobile} {
+					> p.iam_2 {
+						> span {
+							display: block;
+						}
+					}
+				}
+			} //.container
+		} //.info
+	} //footer
+	> aside {
+		position: fixed;
+		right: 1rem;
+		bottom: 1rem;
+		z-index: 1000;
+		> .top {
+			display: block;
+			width: 28px;
+			height: 28px;
+			line-height: 28px;
+			text-align: center;
+			background-color: $pri-color-2;
+		}
+		> i {
+			color: $pri-color-3;
+		}
+	} //aside
 } //#wrap
+
+// //강사님
+// @charset "UTF-8";
+
+// //컬러시스템
+// $pri-color-1: #2c3e50;
+// $pri-color-2: #52b3d9;
+// $pri-color-3: #ffffff;
+
+// $sec-color-1: #68c3a3;
+// $sec-color-2: #333333;
+// $sec-color-3: #eeeeee;
+
+// $point-color-1: #ffc90e;
+// $point-color-2: #fcf8e3;
+
+// //믹신변수 - 반복되는 코드 덩어리
+// // @mixin transTop {
+// // 	top: 50%;
+// // 	transform: translate(0, -50%);
+// // }
+
+// // #wrap {
+// // 	position: relative;
+// // 	min-width: 1200px;
+
+// // 	> .loading {
+// // 		display: flex;
+// // 		justify-content: center;
+// // 		align-items: center;
+
+// // 		position: fixed;
+// // 		left: 0;
+// // 		right: 0;
+// // 		top: 0;
+// // 		bottom: 0;
+// // 		z-index: 1000;
+// // 		background-color: $pri-color-3;
+
+// // 		> p {
+// // 			width: 64px;
+// // 			height: 64px;
+// // 			text-indent: -9999px;
+// // 			background-image: url(./../images/loading.gif);
+// // 		}
+// // 	} //end of .loading
+
+// // 	> h1 {
+// // 		position: absolute;
+// // 		left: 50%;
+// // 		top: 160px;
+// // 		z-index: 100;
+// // 		color: $pri-color-3;
+// // 		font-size: 24px;
+// // 		text-transform: uppercase;
+// // 		transform: translate(-50%, 0);
+// // 		// border: 1px solid #000;
+// // 	}
+
+// // 	> #home {
+// // 		overflow: hidden;
+// // 		position: relative;
+
+// // 		&:before {
+// // 			display: block;
+// // 			width: 100%;
+// // 			height: 100%;
+// // 			background-color: $sec-color-2;
+// // 			opacity: 0.5;
+// // 			content: '';
+// // 		}
+
+// // 		> .intro {
+// // 			position: absolute;
+// // 			left: 0;
+// // 			top: 35%;
+// // 			width: 100%;
+
+// // 			text-align: center;
+// // 			// border: 1px solid #fff;
+
+// // 			> h2 {
+// // 				color: $pri-color-2;
+// // 				font-size: 60px;
+// // 				line-height: 80px;
+
+// // 				> span {
+// // 					color: $sec-color-1;
+// // 				}
+// // 			} //end of h2
+
+// // 			> p {
+// // 				margin-top: 24px;
+// // 				color: $pri-color-3;
+// // 				line-height: 1.8;
+// // 				letter-spacing: 1px;
+// // 			} //end of p
+
+// // 			> .myico {
+// // 				display: flex;
+// // 				justify-content: space-between;
+// // 				width: 320px;
+// // 				margin: 40px auto 0;
+
+// // 				> span {
+// // 					display: block;
+// // 					width: 40px;
+// // 					border: 1px solid $pri-color-3;
+// // 					border-radius: 3px;
+// // 					transform: rotate(45deg);
+// // 					transition: all 0.4s;
+
+// // 					&:hover {
+// // 						background-color: $pri-color-2;
+// // 						border-color: transparent;
+// // 						cursor: pointer;
+// // 					}
+
+// // 					> i {
+// // 						display: block;
+// // 						height: 40px;
+// // 						line-height: 40px;
+// // 						text-align: center;
+// // 						color: $pri-color-3;
+// // 						font-size: 18px;
+// // 						transform: rotate(-45deg);
+// // 					}
+// // 				}
+// // 			} //end of .myico
+// // 		} //end of .intro
+
+// // 		> .mouse {
+// // 			position: absolute;
+// // 			left: 50%;
+// // 			bottom: 40px;
+// // 			width: 30px;
+// // 			height: 50px;
+// // 			border: 2px solid $pri-color-3;
+// // 			box-sizing: border-box;
+// // 			border-radius: 15px;
+// // 			transform: translate(-50%, 0);
+
+// // 			@keyframes mousewheel {
+// // 				0% {
+// // 					top: 5px;
+// // 					opacity: 0;
+// // 				}
+// // 				30% {
+// // 					top: 10px;
+// // 					opacity: 1;
+// // 				}
+// // 				100% {
+// // 					top: 20px;
+// // 					opacity: 0;
+// // 				}
+// // 			}
+
+// // 			> .wheel {
+// // 				position: absolute;
+// // 				left: 50%;
+// // 				top: 5px;
+// // 				width: 4px;
+// // 				height: 10px;
+// // 				text-indent: -9999px;
+// // 				background-color: $pri-color-3;
+// // 				border-radius: 2px;
+// // 				transform: translate(-50%, 0);
+
+// // 				animation: mousewheel 1s linear infinite;
+// // 			}
+// // 		} //end of .mouse
+
+// // 		> .bgmov {
+// // 			position: absolute;
+// // 			left: 0;
+// // 			right: 0;
+// // 			top: 0;
+// // 			bottom: 0;
+// // 			z-index: -1;
+// // 			width: 100%;
+
+// // 			> video {
+// // 				min-width: 100%;
+// // 				min-height: 100%;
+// // 			}
+// // 		} //end of .bgmov
+// // 	} //end of #home
+
+// // 	header {
+// // 		background-color: $pri-color-3;
+// // 		border-bottom: 1px solid $sec-color-3;
+
+// // 		> .container {
+// // 			position: relative;
+// // 			height: 66px;
+
+// // 			> h2 {
+// // 				position: absolute;
+// // 				left: 7%;
+// // 				@include transTop; //믹신변수 활용
+// // 				background-image: url(./../images/logo.png);
+// // 				background-repeat: no-repeat;
+
+// // 				> a {
+// // 					display: block;
+// // 					height: 32px;
+// // 					color: $pri-color-1;
+// // 					line-height: 32px;
+// // 					text-indent: 40px;
+// // 					text-transform: uppercase;
+// // 				}
+// // 			}
+
+// // 			> nav {
+// // 				position: absolute;
+// // 				right: 7%;
+// // 				@include transTop;
+// // 				> .gnb {
+// // 					display: flex;
+// // 					> li {
+// // 						> a {
+// // 							display: block;
+// // 							padding: 0 15px;
+// // 							color: darken($sec-color-3, 70%);
+// // 							font-weight: 500;
+// // 							text-transform: uppercase;
+// // 							transition: all 0.2s;
+// // 						} //end of a
+
+// // 						&:hover > a,
+// // 						&.on > a {
+// // 							color: $pri-color-2;
+// // 						}
+// // 					} //end of li
+// // 				} //end of .gnb
+// // 			} //end of nav
+// // 		} //end of .container
+// // 	} //end of header
+
+// // 	header ~ section {
+// // 		display: flex;
+// // 		justify-content: center;
+// // 		align-items: center;
+// // 		font-size: 150px;
+// // 		text-transform: uppercase;
+
+// // 		&:nth-of-type(odd) {
+// // 			height: 500px;
+// // 			background-color: skyblue;
+// // 		}
+// // 		&:nth-of-type(even) {
+// // 			height: 800px;
+// // 			background-color: pink;
+// // 		}
+// // 	}
+// // } //end of #wrap
