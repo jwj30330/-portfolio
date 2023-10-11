@@ -1,23 +1,23 @@
 //로딩중;
 $(function () {
-	const $loading = $('.loading');
-	$loading.children('p').fadeOut();
-	$loading.delay(250).fadeOut(800);
-});
+	const $loading = $('.loading')
+	$loading.children('p').fadeOut()
+	$loading.delay(250).fadeOut(800)
+})
 
-//
+//메뉴, 스크롤
 $(function () {
-	const $h1 = $('h1');
-	const $home = $('#home');
-	const $header = $home.nextAll('header');
-	const $intro = $home.children('.intro');
-	const $nav = $header.find('nav'); //직계자손선택 find()-확실할때만 쓰기
-	const $mnus = $nav.find('a');
-	const $btnGnb = $header.find('.btn-gnb');
-	const $aside = $('aside');
+	const $h1 = $('h1')
+	const $home = $('#home')
+	const $header = $home.nextAll('header')
+	const $intro = $home.children('.intro')
+	const $nav = $header.find('nav') //직계자손선택 find()-확실할때만 쓰기
+	const $mnus = $nav.find('a')
+	const $btnGnb = $header.find('.btn-gnb')
+	const $aside = $('aside')
 
-	const headerH = $header.height();
-	const arrTopVal = []; //header이후에 존재하는 section의 top값
+	const headerH = $header.height()
+	const arrTopVal = [] //header이후에 존재하는 section의 top값
 	// let nowIdx = 0;
 
 	$(window).on('load resize', function () {
@@ -31,97 +31,130 @@ $(function () {
       window.outerHeight
 
     */
-		$home.height(window.innerHeight); //브라우저에서 스크롤바와 툴바 미포함
+		$home.height(window.innerHeight) //브라우저에서 스크롤바와 툴바 미포함
 
 		if (window.innerWidth > 640) {
 			//pc버전
 			$h1.css({
 				//선택된 요소가 body로 부터 이르는 거리(left, top)
 				top: $intro.offset().top - 72,
-			});
-			$nav.show();
+			})
+			$nav.show()
 		} else {
 			//mobile 버전
 			$h1.css({
 				//선택된 요소가 body로 부터 이르는 거리(left, top)
 				top: $intro.offset().top - 100,
-			});
-			$btnGnb.removeClass('clse');
-			$nav.hide();
+			})
+			$btnGnb.removeClass('clse')
+			$nav.hide()
 
-			$home.css({ tranceform: 'scale(1)' });
+			$home.css({ tranceform: 'scale(1)' })
 		}
 
 		//각section의 top값을 배열에 저장
 		$('header~section').each(function (idx) {
-			arrTopVal[idx] = $(this).offset().top;
-		});
-	}); //load resize
+			arrTopVal[idx] = $(this).offset().top
+		})
+	}) //load resize
 
 	$(window).on('scroll', function () {
-		let scrollTop = $(this).scrollTop();
-		const $aboutme = $home.nextAll('#aboutme');
+		let scrollTop = $(this).scrollTop()
+		const $aboutme = $home.nextAll('#aboutme')
 
 		//비주얼에 재미있는 효과
 		if (window.innerWidth > 640) {
 			if (scrollTop > $(this).height() - 400) {
-				$home.css({ tranceform: 'scale(0.9)' });
+				$home.css({ tranceform: 'scale(0.9)' })
 			} else {
-				$home.css({ tranceform: 'scale(1)' });
+				$home.css({ tranceform: 'scale(1)' })
 			}
 		}
 
 		//header고정
 		if (scrollTop > $(this).height()) {
-			$header.addClass('fixed');
-			$aboutme.css({ marginTop: headerH });
+			$header.addClass('fixed')
+			$aboutme.css({ marginTop: headerH })
 		} else {
-			$header.removeClass('fixed');
-			$aboutme.css({ marginTop: 0 });
+			$header.removeClass('fixed')
+			$aboutme.css({ marginTop: 0 })
 		}
 
 		//메뉴 활성화 표시
 		for (let i = 0; i < $mnus.length; i++) {
-			if (scrollYop >= arrTopVal[i] - headerH - 150) {
-				$mnus.eq(i).perent().addClass('on').siblings().removeClass('on');
+			if (scrollTop >= arrTopVal[i] - headerH - 150) {
+				$mnus.eq(i).parent().addClass('on').siblings().removeClass('on')
 			} else if (scrollTop < arrTopVal[0] - headerH - 150) {
-				$mnus.parent().removeClass('on');
+				$mnus.parent().removeClass('on')
 			}
 		}
 		//top버튼 노출처리
 		if (scroll > 120) {
-			$aside.fadeIn();
+			$aside.fadeIn()
 		} else {
-			$aside.fadeOut();
+			$aside.fadeOut()
 		}
-	}); //scroll
+	}) //scroll
 	$mnus.on('click', function (evt) {
-		evt.preventDefault();
+		evt.preventDefault()
 
 		//nowIdx
-		nowIdx = $mnus.index(this);
+		nowIdx = $mnus.index(this)
 
 		//animate
 		$('html, body')
 			.stop()
-			.animate({ scrollTop: arrTopVal[nowIdx] - headerH });
+			.animate({ scrollTop: arrTopVal[nowIdx] - headerH })
 
 		if (!(window.innerWidth > 640)) {
-			$btnGnb.trigger('click');
+			$btnGnb.trigger('click')
 		} //클릭이벤트 강제 발생
-	});
+	})
 
 	//반응형 햄버거 버튼
 	$btnGnb.on('click', function () {
 		//$(this)이번에 이벤트가 일어날 대상
-		$(this).toggleClass('clse');
-		$nav.toggle(); //있으면 없애고 없으면 있게 만듬
-	});
+		$(this).toggleClass('clse')
+		$nav.toggle() //있으면 없애고 없으면 있게 만듬
+	})
 
 	$('.logo')
 		.add($aside) //$aside 추가
 		.on('click', function (evt) {
-			evt.preventDefault();
-			$('html,body').stop().animate({ scrollTop: 0 });
-		});
-});
+			evt.preventDefault()
+			$('html,body').stop().animate({ scrollTop: 0 })
+		})
+})
+
+//ability 영역
+$(function () {
+	$(window).on('scroll', function () {
+		const scrollTop = $(this).scrollTop()
+
+		//window.innerHeight - window의 높이
+		//3000-1000+400=2400
+		if (scrollTop > $('#ability').offset().top - window.innerHeight + 400) {
+			//#ability>.bar에 있는 span의 텍스트를 width값으로 쓰겠다.
+			$('#ability .bar').each(function () {
+				$(this).width($(this).children('span').text())
+			})
+		} else if (scrollTop < $('#ability').offset().top - window.innerHeight) {
+			$('#ability .bar').width(0) //막대그래프 리셋
+		}
+	})
+})
+//resume영역
+$(function () {
+	const $btn = $('.close')
+	$('.online').on('click', function (evt) {
+		evt.preventDefault()
+		const imgSrc = $(this).attr('href')
+		$('.lightbox').children().attr({ src: imgSrc })
+
+		$('.shadow').show()
+	})
+	$btn.on('click', function (evt) {
+		$('.shadow').hide()
+		evt.stopPropagation()
+	})
+})
